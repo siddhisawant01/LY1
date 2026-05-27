@@ -18,16 +18,19 @@ export const Route = createFileRoute("/")({
 
 function GameCard({ to, title, desc, icon, gradient }: { to: string; title: string; desc: string; icon: React.ReactNode; gradient: string }) {
   return (
-    <Link to={to} className="group">
-      <div className={`relative overflow-hidden rounded-3xl p-6 md:p-8 shadow-lg transition-transform group-hover:-translate-y-1 ${gradient}`}>
+    <div className={`relative overflow-hidden rounded-3xl p-6 md:p-8 shadow-lg transition-transform hover:-translate-y-1 ${gradient}`}>
+      <div className="absolute top-4 right-4 z-10" onClick={(e) => e.stopPropagation()}>
+        <ShareDialog path={to} />
+      </div>
+      <Link to={to} className="block">
         <div className="text-5xl mb-4">{icon}</div>
         <h3 className="text-2xl font-extrabold mb-1">{title}</h3>
         <p className="text-sm opacity-80">{desc}</p>
         <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-bold text-foreground shadow">
           Play now →
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
 
