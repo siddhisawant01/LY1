@@ -149,7 +149,33 @@ function DayNightGame() {
                         dragId === item.id ? "opacity-30" : "bg-secondary border-border hover:scale-110"
                       } ${fb === "right" ? "border-green-500 bg-green-100" : ""} ${fb === "wrong" ? "border-red-500 bg-red-100 animate-pulse" : ""}`}
                     >
-                      <span className="text-4xl md:text-5xl pointer-events-none">{item.emoji}</span>
+                      <img
+                        src={`/assets/${item.id}.png`}
+                        alt={item.label}
+                        className="w-10 h-10 md:w-12 md:h-12 object-contain pointer-events-none"
+                        onError={(e) => {
+                          const img = e.currentTarget as HTMLImageElement;
+                          const src = img.getAttribute("src") ?? "";
+                          if (src.endsWith(".png")) {
+                            img.src = src.replace(/\.png$/, ".jpg");
+                            return;
+                          }
+                          if (src.endsWith(".jpg")) {
+                            img.src = src.replace(/\.jpg$/, ".jpeg");
+                            return;
+                          }
+                          if (src.endsWith(".jpeg")) {
+                            img.src = src.replace(/\.jpeg$/, ".svg");
+                            return;
+                          }
+                          if (src.endsWith(".svg")) {
+                            img.style.display = "none";
+                            const el = img.nextElementSibling as HTMLElement | null;
+                            if (el) el.style.display = "inline";
+                          }
+                        }}
+                      />
+                      <span className="text-4xl md:text-5xl pointer-events-none" style={{ display: "none" }}>{item.emoji}</span>
                       <span className="text-[10px] font-bold text-muted-foreground mt-1 pointer-events-none">{item.label}</span>
                       {fb === "right" && (
                         <span className="absolute -top-2 -right-2 bg-green-500 text-white rounded-full p-1 shadow animate-pop-in"><Check className="w-4 h-4" /></span>
@@ -167,10 +193,36 @@ function DayNightGame() {
 
         {ghost && (
           <div
-            className="pointer-events-none fixed z-50 text-5xl md:text-6xl drop-shadow-lg"
+            className="pointer-events-none fixed z-50 drop-shadow-lg"
             style={{ left: ghost.x, top: ghost.y, transform: "translate(-50%, -50%) scale(1.2)" }}
           >
-            {ghost.emoji}
+            <img
+              src={`/assets/${dragId ?? ""}.png`}
+              alt={ghost.emoji}
+              className="w-20 h-20 md:w-24 md:h-24 object-contain"
+              onError={(e) => {
+                const img = e.currentTarget as HTMLImageElement;
+                const src = img.getAttribute("src") ?? "";
+                if (src.endsWith(".png")) {
+                  img.src = src.replace(/\.png$/, ".jpg");
+                  return;
+                }
+                if (src.endsWith(".jpg")) {
+                  img.src = src.replace(/\.jpg$/, ".jpeg");
+                  return;
+                }
+                if (src.endsWith(".jpeg")) {
+                  img.src = src.replace(/\.jpeg$/, ".svg");
+                  return;
+                }
+                if (src.endsWith(".svg")) {
+                  img.style.display = "none";
+                  const el = img.nextElementSibling as HTMLElement | null;
+                  if (el) el.style.display = "inline";
+                }
+              }}
+            />
+            <div className="text-5xl md:text-6xl" style={{ display: "none" }}>{ghost.emoji}</div>
           </div>
         )}
       </div>
@@ -190,7 +242,35 @@ function DropZone({ innerRef, title, icon, className, items, active }: {
       <div className="flex items-center gap-2 font-extrabold text-2xl mb-3">{icon} {title}</div>
       <div className="flex flex-wrap gap-2">
         {items.map((it) => (
-          <span key={it.id} className="text-4xl md:text-5xl animate-pop-in bg-white/30 rounded-xl p-2">{it.emoji}</span>
+          <div key={it.id} className="animate-pop-in bg-white/30 rounded-xl p-2 flex items-center justify-center w-12 h-12 md:w-14 md:h-14">
+            <img
+              src={`/assets/${it.id}.png`}
+              alt={it.label}
+              className="w-8 h-8 md:w-10 md:h-10 object-contain"
+              onError={(e) => {
+                const img = e.currentTarget as HTMLImageElement;
+                const src = img.getAttribute("src") ?? "";
+                if (src.endsWith(".png")) {
+                  img.src = src.replace(/\.png$/, ".jpg");
+                  return;
+                }
+                if (src.endsWith(".jpg")) {
+                  img.src = src.replace(/\.jpg$/, ".jpeg");
+                  return;
+                }
+                if (src.endsWith(".jpeg")) {
+                  img.src = src.replace(/\.jpeg$/, ".svg");
+                  return;
+                }
+                if (src.endsWith(".svg")) {
+                  img.style.display = "none";
+                  const el = img.nextElementSibling as HTMLElement | null;
+                  if (el) el.style.display = "inline";
+                }
+              }}
+            />
+            <span className="text-4xl md:text-5xl" style={{ display: "none" }}>{it.emoji}</span>
+          </div>
         ))}
       </div>
     </div>
