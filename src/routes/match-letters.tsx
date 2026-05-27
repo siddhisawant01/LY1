@@ -134,7 +134,7 @@ function MatchGame() {
                       key={l}
                       ref={(el) => { upperRefs.current[l] = el; }}
                       disabled={isMatched}
-                      onClick={() => setSelectedUpper(l)}
+                      onClick={() => { setSelectedUpper(l); sfx.pickup(); }}
                       className={`flex w-full items-center gap-3 rounded-full border-2 border-dashed p-2 md:p-3 transition-all ${
                         isMatched ? "border-green-500 bg-green-100" :
                         isSelected ? "border-primary bg-accent/30 scale-105" :
