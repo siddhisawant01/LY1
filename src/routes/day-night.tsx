@@ -100,19 +100,19 @@ function DayNightGame() {
                   <button
                     key={item.id}
                     draggable
-                    onDragStart={() => setDragging(item.id)}
+                    onDragStart={(e) => { e.dataTransfer.setData("text/plain", item.id); setDragging(item.id); }}
                     onDragEnd={() => setDragging(null)}
-                    onTouchStart={() => setDragging(item.id)}
-                    className={`flex flex-col items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-secondary border-2 border-dashed border-border cursor-grab active:cursor-grabbing transition-transform hover:scale-110 ${wrong === item.id ? "animate-pulse border-destructive" : ""}`}
+                    onClick={() => setDragging(item.id)}
+                    className={`flex flex-col items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-2xl border-2 border-dashed cursor-grab active:cursor-grabbing transition-transform hover:scale-110 ${dragging === item.id ? "bg-accent/40 border-primary scale-110" : "bg-secondary border-border"} ${wrong === item.id ? "animate-pulse border-destructive" : ""}`}
                   >
                     <span className="text-4xl md:text-5xl">{item.emoji}</span>
                     <span className="text-[10px] font-bold text-muted-foreground mt-1">{item.label}</span>
                   </button>
                 ))}
               </div>
-              {/* Mobile fallback: tap-to-place */}
+              {/* Tap-to-place fallback (works on mobile too) */}
               {dragging && (
-                <div className="mt-4 flex justify-center gap-3 md:hidden">
+                <div className="mt-4 flex justify-center gap-3">
                   <Button onClick={() => { handleDrop("day", dragging); setDragging(null); }} className="bg-day text-day-foreground hover:bg-day/80">→ Day</Button>
                   <Button onClick={() => { handleDrop("night", dragging); setDragging(null); }} className="bg-night text-night-foreground hover:bg-night/80">→ Night</Button>
                 </div>
@@ -127,7 +127,7 @@ function DayNightGame() {
 
 function DropZone({ cat, title, icon, className, onDrop, items, isDragging }: {
   cat: "day" | "night"; title: string; icon: React.ReactNode; className: string;
-  onDrop: (cat: "day" | "night", id: string) => void; items: Item[]; isDragging: boolean;
+  onDrop: (cat: "day" | "night", id: string) => void; items: Item[]; isDragging: string | null | boolean;
 }) {
   const [over, setOver] = useState(false);
   return (
@@ -137,7 +137,7 @@ function DropZone({ cat, title, icon, className, onDrop, items, isDragging }: {
       onDrop={(e) => {
         e.preventDefault();
         setOver(false);
-        const id = e.dataTransfer.getData("text/plain") || (e.target as HTMLElement).dataset.id;
+        const id = e.dataTransfer.getData("text/plain");
         if (id) onDrop(cat, id);
       }}
       className={`rounded-3xl p-4 md:p-6 min-h-[220px] md:min-h-[280px] shadow-lg transition-all ${className} ${over || isDragging ? "ring-4 ring-primary/40 scale-[1.02]" : ""}`}
@@ -150,12 +150,4 @@ function DropZone({ cat, title, icon, className, onDrop, items, isDragging }: {
       </div>
     </div>
   );
-}
-
-// Attach dataTransfer payload
-if (typeof window !== "undefined") {
-  document.addEventListener("dragstart", (e) => {
-    const t = e.target as HTMLElement;
-    if (t?.dataset?.dnid) e.dataTransfer?.setData("text/plain", t.dataset.dnid);
-  });
 }
