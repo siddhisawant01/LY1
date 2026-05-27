@@ -4,6 +4,7 @@ import { SplashScreen } from "@/components/SplashScreen";
 import { ShareDialog } from "@/components/ShareDialog";
 import { ArrowLeft, RefreshCw, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { sfx } from "@/lib/sfx";
 
 export const Route = createFileRoute("/match-letters")({
   head: () => ({
@@ -40,10 +41,14 @@ function MatchGame() {
   const handleLower = (l: string) => {
     if (!selectedUpper) return;
     if (selectedUpper.toLowerCase() === l) {
-      setMatched((m) => new Set(m).add(selectedUpper));
+      const next = new Set(matched).add(selectedUpper);
+      setMatched(next);
       setSelectedUpper(null);
+      if (next.size === LETTERS.length) sfx.win();
+      else sfx.correct();
     } else {
       setWrongPair(l);
+      sfx.wrong();
       setTimeout(() => { setWrongPair(null); setSelectedUpper(null); }, 500);
     }
   };

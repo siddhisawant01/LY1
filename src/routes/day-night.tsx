@@ -4,6 +4,7 @@ import { SplashScreen } from "@/components/SplashScreen";
 import { ShareDialog } from "@/components/ShareDialog";
 import { ArrowLeft, RefreshCw, Sun, Moon, PartyPopper, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { sfx } from "@/lib/sfx";
 
 export const Route = createFileRoute("/day-night")({
   head: () => ({
@@ -45,10 +46,14 @@ function DayNightGame() {
     const item = ITEMS.find((i) => i.id === id);
     if (!item) return;
     if (item.category === cat) {
-      setPlaced((p) => ({ ...p, [id]: cat }));
+      const nextPlaced = { ...placed, [id]: cat };
+      setPlaced(nextPlaced);
       setFeedback({ id, kind: "right" });
+      if (Object.keys(nextPlaced).length === ITEMS.length) sfx.win();
+      else sfx.correct();
     } else {
       setFeedback({ id, kind: "wrong" });
+      sfx.wrong();
     }
     setTimeout(() => setFeedback(null), 700);
   };
@@ -69,6 +74,7 @@ function DayNightGame() {
     (e.target as Element).setPointerCapture(e.pointerId);
     setDragId(item.id);
     setGhost({ x: e.clientX, y: e.clientY, emoji: item.emoji });
+    sfx.pickup();
   };
   const onPointerMove = (e: React.PointerEvent) => {
     if (!dragId) return;
