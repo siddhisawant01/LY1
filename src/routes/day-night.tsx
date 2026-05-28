@@ -111,6 +111,7 @@ function DayNightGame() {
               className="bg-day text-day-foreground"
               items={ITEMS.filter((i) => placed[i.id] === "day")}
               active={!!dragId}
+              assetBase={assetBase}
             />
             <DropZone
               innerRef={nightRef}
@@ -119,6 +120,7 @@ function DayNightGame() {
               className="bg-night text-night-foreground"
               items={ITEMS.filter((i) => placed[i.id] === "night")}
               active={!!dragId}
+              assetBase={assetBase}
             />
           </div>
 
@@ -228,9 +230,10 @@ function DayNightGame() {
   );
 }
 
-function DropZone({ innerRef, title, icon, className, items, active }: {
+function DropZone({ innerRef, title, icon, className, items, active, assetBase }: {
   innerRef: React.RefObject<HTMLDivElement | null>;
   title: string; icon: React.ReactNode; className: string; items: Item[]; active: boolean;
+  assetBase: string;
 }) {
   return (
     <div
