@@ -27,6 +27,19 @@ const html = `<!doctype html>
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      window.$_TSR = {
+        buffer: [],
+        initialized: false,
+        router: {
+          matches: [],
+          lastMatchId: null,
+          manifest: {},
+          dehydratedData: null,
+        },
+        h() {},
+      };
+    </script>
     <script type="module" src="${base}assets/${entryFile}"></script>
   </body>
 </html>
