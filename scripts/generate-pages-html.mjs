@@ -30,11 +30,16 @@ const html = `<!doctype html>
     <script>
       window.$_TSR = {
         buffer: [],
-        initialized: false,
+        initialized: true,
         router: {
           matches: [],
           lastMatchId: null,
-          manifest: {},
+          manifest: {
+            "__root__": {},
+            "/": {},
+            "/day-night": {},
+            "/match-letters": {},
+          },
           dehydratedData: null,
         },
         h() {},
