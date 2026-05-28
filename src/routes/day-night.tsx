@@ -32,6 +32,7 @@ const ITEMS: Item[] = [
 type Feedback = { id: string; kind: "right" | "wrong" } | null;
 
 function DayNightGame() {
+  const assetBase = import.meta.env.BASE_URL;
   const [placed, setPlaced] = useState<Record<string, "day" | "night">>({});
   const [feedback, setFeedback] = useState<Feedback>(null);
   const [dragId, setDragId] = useState<string | null>(null);
@@ -147,7 +148,7 @@ function DayNightGame() {
                       } ${fb === "right" ? "border-green-500 bg-green-100" : ""} ${fb === "wrong" ? "border-red-500 bg-red-100 animate-pulse" : ""}`}
                     >
                       <img
-                        src={`/assets/${item.id}.png`}
+                        src={`${assetBase}assets/${item.id}.png`}
                         alt={item.label}
                         className="w-10 h-10 md:w-12 md:h-12 object-contain pointer-events-none"
                         onError={(e) => {
@@ -194,7 +195,7 @@ function DayNightGame() {
             style={{ left: ghost.x, top: ghost.y, transform: "translate(-50%, -50%) scale(1.2)" }}
           >
             <img
-              src={`/assets/${dragId ?? ""}.png`}
+              src={`${assetBase}assets/${dragId ?? ""}.png`}
               alt={ghost.emoji}
               className="w-20 h-20 md:w-24 md:h-24 object-contain"
               onError={(e) => {
@@ -241,7 +242,7 @@ function DropZone({ innerRef, title, icon, className, items, active }: {
         {items.map((it) => (
           <div key={it.id} className="animate-pop-in bg-white/30 rounded-xl p-2 flex items-center justify-center w-12 h-12 md:w-14 md:h-14">
             <img
-              src={`/assets/${it.id}.png`}
+              src={`${assetBase}assets/${it.id}.png`}
               alt={it.label}
               className="w-8 h-8 md:w-10 md:h-10 object-contain"
               onError={(e) => {

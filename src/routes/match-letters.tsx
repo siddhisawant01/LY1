@@ -33,6 +33,7 @@ function shuffle<T>(arr: T[]): T[] {
 type Line = { x1: number; y1: number; x2: number; y2: number };
 
 function MatchGame() {
+  const assetBase = import.meta.env.BASE_URL;
   const [seed, setSeed] = useState(0);
   const lower = useMemo(() => shuffle(LETTERS.map((l) => l.toLowerCase())), [seed]);
   const [selectedUpper, setSelectedUpper] = useState<string | null>(null);
@@ -146,7 +147,7 @@ function MatchGame() {
                       }`}
                     >
                       <img
-                        src={`/assets/${ASSET_BY_LETTER[l]}.png`}
+                        src={`${assetBase}assets/${ASSET_BY_LETTER[l]}.png`}
                         alt={ASSET_BY_LETTER[l]}
                         className="w-10 h-10 object-contain"
                         onError={(e) => {
@@ -182,7 +183,7 @@ function MatchGame() {
                     >
                       <span className="text-4xl md:text-5xl font-extrabold flex-1 text-center">{l}</span>
                       <img
-                        src={`/assets/${ASSET_BY_LETTER[upper]}.png`}
+                        src={`${assetBase}assets/${ASSET_BY_LETTER[upper]}.png`}
                         alt={ASSET_BY_LETTER[upper]}
                         className="w-10 h-10 object-contain"
                         onError={(e) => {
