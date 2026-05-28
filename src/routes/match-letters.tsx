@@ -105,7 +105,7 @@ function MatchGame() {
         </header>
 
         <main className="px-4 md:px-8 pb-8 max-w-3xl mx-auto">
-          <p className="text-center text-muted-foreground mb-6">Match the letters.</p>
+          <h2 className="text-center  mb-6 font-extrabold ">Match the letters.</h2>
 
           {done ? (
             <div className="rounded-3xl bg-card p-8 text-center shadow-lg animate-pop-in">
@@ -134,7 +134,7 @@ function MatchGame() {
               </svg>
 
               <div className="space-y-3">
-                <h2 className="text-center font-bold text-sm uppercase tracking-wide text-muted-foreground bg-secondary rounded-full py-1">Uppercase</h2>
+                {/* <h2 className="text-center font-bold text-sm uppercase tracking-wide text-muted-foreground bg-secondary rounded-full py-1">Uppercase</h2> */}
                 {LETTERS.map((l) => {
                   const isMatched = matched.has(l);
                   const isSelected = selectedUpper === l;
@@ -168,7 +168,7 @@ function MatchGame() {
               </div>
 
               <div className="space-y-3">
-                <h2 className="text-center font-bold text-sm uppercase tracking-wide text-muted-foreground bg-secondary rounded-full py-1">Lowercase</h2>
+                {/* <h2 className="text-center font-bold text-sm uppercase tracking-wide text-muted-foreground bg-secondary rounded-full py-1">Lowercase</h2> */}
                 {lower.map((l) => {
                   const upper = l.toUpperCase();
                   const isMatched = matched.has(upper);
