@@ -97,7 +97,7 @@ function MatchGame() {
     <SplashScreen duration={1500}>
       <div className="min-h-screen bg-gradient-to-b from-accent/20 via-background to-primary/10">
         <header className="flex items-center justify-between px-4 md:px-8 py-4">
-          <h1 className="text-xl md:text-2xl font-extrabold text-brand-navy">Match the Letters</h1>
+          {/* <h1 className="text-xl md:text-2xl font-extrabold text-brand-navy">Match the Letters</h1> */}
           <div className="flex gap-2">
             <Button onClick={reset} variant="ghost" size="sm"><RefreshCw className="w-4 h-4" /></Button>
             <ShareDialog path="/match-letters" />
