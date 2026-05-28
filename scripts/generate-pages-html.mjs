@@ -35,10 +35,12 @@ const html = `<!doctype html>
           matches: [],
           lastMatchId: null,
           manifest: {
-            "__root__": {},
-            "/": {},
-            "/day-night": {},
-            "/match-letters": {},
+            routes: {
+              "__root__": {},
+              "/": {},
+              "/day-night": {},
+              "/match-letters": {},
+            }
           },
           dehydratedData: null,
         },
