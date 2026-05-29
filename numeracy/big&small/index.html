@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+<title>Big and Small Game</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body{
+    font-family:'Nunito',sans-serif;
+    overflow:hidden;
+    width:100vw;
+    height:100vh;
+}
+
+/* ================= SLIDES ================= */
+
+.slide{
+    width:100%;
+    height:100vh;
+    position:absolute;
+    top:0;
+    left:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:opacity 0.8s ease;
+}
+
+.hidden{
+    opacity:0;
+    pointer-events:none;
+}
+
+/* ================= SLIDE 1 ================= */
+
+#slide1{
+    background:white;
+    flex-direction:column;
+}
+
+.logo{
+    width:260px;
+    max-width:70vw;
+    animation:zoomIn 1s ease;
+}
+
+@keyframes zoomIn{
+    from{
+        transform:scale(0.5);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* ================= SLIDE 2 ================= */
+
+#slide2{
+    display:none;
+    flex-direction:column;
+    padding:20px;
+    overflow:auto;
+
+    background:
+    linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)),
+    url("https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1200&auto=format&fit=crop");
+    background-size:cover;
+    background-position:center;
+}
+
+.game-title{
+    font-size:clamp(28px,4vw,48px);
+    font-weight:900;
+    color:#ffffff;
+    text-shadow:2px 2px 8px rgba(0,0,0,0.4);
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.game-container{
+    width:100%;
+    max-width:1400px;
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:flex-start;
+}
+
+/* LEFT PANEL */
+
+.left-panel{
+    flex:1;
+    min-width:320px;
+
+    background:rgba(255,255,255,0.85);
+    border-radius:30px;
+    padding:20px;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:20px;
+}
+
+/* CARD */
+
+.item-card{
+    background:white;
+    border:6px solid;
+    border-radius:25px;
+    padding:12px;
+    text-align:center;
+    cursor:grab;
+    user-select:none;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    transition:0.3s;
+    min-height:190px;
+
+    box-shadow:0 6px 15px rgba(0,0,0,0.15);
+}
+
+.item-card:hover{
+    transform:scale(1.05);
+}
+
+.item-card img{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+    margin-bottom:10px;
+}
+
+.item-card p{
+    font-size:20px;
+    font-weight:800;
+    color:#444;
+}
+
+.border1{ border-color:#ff6b6b; }
+.border2{ border-color:#4ecdc4; }
+.border3{ border-color:#f7b731; }
+.border4{ border-color:#45aaf2; }
+.border5{ border-color:#a55eea; }
+.border6{ border-color:#26de81; }
+
+/* RIGHT PANEL */
+
+.right-panel{
+    flex:1;
+    min-width:320px;
+
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.drop-zone{
+    flex:1;
+    min-width:240px;
+    min-height:500px;
+
+    background:rgba(255,255,255,0.9);
+
+    border-radius:35px;
+    border:8px dashed #ffffff;
+
+    padding:20px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+
+    box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+.drop-zone h2{
+    font-size:40px;
+    font-weight:900;
+    color:#ff4081;
+    text-transform:lowercase;
+}
+
+.drop-zone .items-container{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    align-items:center;
+}
+
+/* FEEDBACK */
+
+.feedback{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:120px;
+    z-index:999;
+    opacity:0;
+    pointer-events:none;
+}
+
+.show{
+    animation:pop 0.8s ease;
+}
+
+@keyframes pop{
+    0%{
+        transform:translate(-50%,-50%) scale(0.2);
+        opacity:0;
+    }
+    40%{
+        transform:translate(-50%,-50%) scale(1.2);
+        opacity:1;
+    }
+    100%{
+        transform:translate(-50%,-50%) scale(1);
+        opacity:0;
+    }
+}
+
+/* ================= SLIDE 3 ================= */
+
+#slide3{
+    display:none;
+    flex-direction:column;
+    background:linear-gradient(135deg,#ff9ff3,#feca57,#48dbfb);
+    overflow:hidden;
+}
+
+.success-message{
+    font-size:clamp(50px,9vw,120px);
+    color:white;
+    font-weight:900;
+    text-shadow:4px 4px 10px rgba(0,0,0,0.3);
+    z-index:5;
+    animation:bounce 1s infinite;
+}
+
+@keyframes bounce{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
+}
+
+canvas{
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+    #slide2{
+        padding:10px;
+    }
+
+    .game-container{
+        flex-direction:column;
+    }
+
+    .drop-zone{
+        min-height:350px;
+    }
+
+    .item-card{
+        min-height:160px;
+    }
+
+    .item-card img{
+        width:75px;
+        height:75px;
+    }
+
+    .drop-zone h2{
+        font-size:32px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= AUDIO ================= -->
+
+<!-- Replace with your correct audio -->
+<audio id="correctSound">
+    <source src="correct.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Replace with your wrong audio -->
+<audio id="wrongSound">
+    <source src="assets/wrong.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ================= FEEDBACK ================= -->
+
+<div id="tick" class="feedback">✅</div>
+<div id="cross" class="feedback">❌</div>
+
+<!-- ================= SLIDE 1 ================= -->
+
+<div id="slide1" class="slide">
+
+    <!-- Replace src with your actual logo path -->
+    <img src="assets/innovine-logo.png" class="logo" alt="Innovine Logo">
+    <!-- Example:
+    <img src="assets/innovine-logo.png">
+    -->
+
+</div>
+
+<!-- ================= SLIDE 2 ================= -->
+
+<div id="slide2" class="slide">
+
+    <div class="game-title">
+        Identify big and small
+    </div>
+
+    <div class="game-container">
+
+        <!-- LEFT SIDE -->
+        <div class="left-panel" id="itemPool">
+
+            <!-- ELEPHANT -->
+            <div class="item-card border1"
+                draggable="true"
+                data-name="elephant"
+                data-size="big">
+
+                <!-- Replace with your file path -->
+                <img src="assets/elephant.png" alt="Elephant">
+                <!-- Example:
+                <img src="assets/elephant.png">
+                -->
+
+                <p>Elephant</p>
+            </div>
+
+            <!-- TENNISBALL -->
+            <div class="item-card border2"
+                draggable="true"
+                data-name="tennisball"
+                data-size="small">
+
+                <!-- Replace with your file path -->
+                <img src="assets/tennisball.png" alt="Tennis Ball">
+                <!-- Example:
+                <img src="assets/tennisball.png">
+                -->
+
+                <p>Tennisball</p>
+            </div>
+
+            <!-- TRUCK -->
+            <div class="item-card border3"
+                draggable="true"
+                data-name="truck"
+                data-size="big">
+
+                <!-- Replace with your file path -->
+                <img src="assets/truck.png" alt="Truck">
+                <!-- Example:
+                <img src="assets/truck.png">
+                -->
+
+                <p>Truck</p>
+            </div>
+
+            <!-- ANT -->
+            <div class="item-card border4"
+                draggable="true"
+                data-name="ant"
+                data-size="small">
+
+                <!-- Replace with your file path -->
+                <img src="assets/ant.png" alt="Ant">
+                <!-- Example:
+                <img src="assets/ant.png">
+                -->
+
+                <p>Ant</p>
+            </div>
+
+            <!-- TREE -->
+            <div class="item-card border5"
+                draggable="true"
+                data-name="tree"
+                data-size="big">
+
+                <!-- Replace with your file path -->
+                <img src="assets/tree.png" alt="Tree">
+                <!-- Example:
+                <img src="assets/tree.png">
+                -->
+
+                <p>Tree</p>
+            </div>
+
+            <!-- PLANT -->
+            <div class="item-card border6"
+                draggable="true"
+                data-name="plant"
+                data-size="small">
+
+                <!-- Replace with your file path -->
+                <img src="assets/plant.png" alt="Plant">
+                <!-- Example:
+                <img src="assets/plant.png">
+                -->
+
+                <p>Plant</p>
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="right-panel">
+
+            <!-- BIG -->
+            <div class="drop-zone" data-zone="big">
+
+                <h2>big</h2>
+
+                <div class="items-container"></div>
+
+            </div>
+
+            <!-- SMALL -->
+            <div class="drop-zone" data-zone="small">
+
+                <h2>small</h2>
+
+                <div class="items-container"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= SLIDE 3 ================= -->
+
+<div id="slide3" class="slide">
+
+    <canvas id="confetti"></canvas>
+
+    <div class="success-message">
+        Fantastic!
+    </div>
+
+</div>
+
+<script>
+
+/* ================= SLIDE TRANSITION ================= */
+
+setTimeout(() => {
+
+    document.getElementById("slide1").style.display = "none";
+    document.getElementById("slide2").style.display = "flex";
+
+}, 2000);
+
+/* ================= DRAG & DROP ================= */
+
+const cards = document.querySelectorAll(".item-card");
+const zones = document.querySelectorAll(".drop-zone");
+
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+
+const tick = document.getElementById("tick");
+const cross = document.getElementById("cross");
+
+let draggedCard = null;
+let correctCount = 0;
+
+cards.forEach(card => {
+
+    /* DESKTOP DRAG */
+    card.addEventListener("dragstart", () => {
+        draggedCard = card;
+    });
+
+    /* MOBILE TOUCH */
+    card.addEventListener("touchstart", () => {
+        draggedCard = card;
+    });
+
+});
+
+zones.forEach(zone => {
+
+    zone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+    });
+
+    zone.addEventListener("drop", () => {
+
+        handleDrop(zone);
+
+    });
+
+    /* MOBILE TOUCH DROP */
+    zone.addEventListener("touchend", () => {
+
+        if(draggedCard){
+            handleDrop(zone);
+        }
+
+    });
+
+});
+
+function handleDrop(zone){
+
+    const correctZone = draggedCard.dataset.size;
+    const droppedZone = zone.dataset.zone;
+
+    if(correctZone === droppedZone){
+
+        zone.querySelector(".items-container").appendChild(draggedCard);
+
+        draggedCard.setAttribute("draggable","false");
+        draggedCard.style.cursor = "default";
+        draggedCard.style.opacity = "0.9";
+
+        correctSound.currentTime = 0;
+        correctSound.play();
+
+        showTick();
+
+        correctCount++;
+
+        if(correctCount === 6){
+
+            setTimeout(() => {
+
+                document.getElementById("slide2").style.display = "none";
+                document.getElementById("slide3").style.display = "flex";
+
+                startConfetti();
+
+            }, 1200);
+
+        }
+
+    }else{
+
+        wrongSound.currentTime = 0;
+        wrongSound.play();
+
+        showCross();
+    }
+
+    draggedCard = null;
+}
+
+/* ================= FEEDBACK ================= */
+
+function showTick(){
+
+    tick.classList.add("show");
+
+    setTimeout(() => {
+        tick.classList.remove("show");
+    },800);
+}
+
+function showCross(){
+
+    cross.classList.add("show");
+
+    setTimeout(() => {
+        cross.classList.remove("show");
+    },800);
+}
+
+/* ================= CONFETTI ================= */
+
+function startConfetti(){
+
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = [];
+
+    for(let i=0;i<250;i++){
+
+        pieces.push({
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height - canvas.height,
+            r:Math.random()*10 + 5,
+            d:Math.random()*250
+        });
+
+    }
+
+    function draw(){
+
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        for(let i=0;i<pieces.length;i++){
+
+            let p = pieces[i];
+
+            ctx.beginPath();
+
+            ctx.fillStyle =
+            `hsl(${Math.random()*360},100%,50%)`;
+
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+
+            ctx.fill();
+        }
+
+        update();
+    }
+
+    function update(){
+
+        for(let i=0;i<pieces.length;i++){
+
+            let p = pieces[i];
+
+            p.y += Math.cos(p.d) + 3 + p.r/2;
+
+            if(p.y > canvas.height){
+
+                p.y = -20;
+            }
+        }
+    }
+
+    setInterval(draw,20);
+}
+
+</script>
+
+</body>
+</html>
